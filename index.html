@@ -1,23 +1,214 @@
+
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>BMI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מדד מסת הגוף — B.M.I.</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-body{
-margin:0;
-display:flex;
-justify-content:center;
-align-items:center;
-background:white;
-}
-img{
-max-width:100%;
-height:auto;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Heebo',Arial,sans-serif;background:#E8F4FA;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{background:#F0F7FC;border:5px solid #1A5276;border-radius:20px;box-shadow:0 8px 32px rgba(26,82,118,.15);max-width:600px;width:100%;padding:28px 24px 24px}
+.title{font-size:2rem;font-weight:900;color:#0B2F4A;text-align:center;margin-bottom:6px}
+.subtitle{font-size:.9rem;color:#2E86C1;line-height:1.6;text-align:center;margin-bottom:16px}
+hr{border:none;border-top:2px dashed #AED6F1;margin:14px 0}
+.inputs{display:flex;gap:16px;margin-bottom:14px;justify-content:center}
+.input-group{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;max-width:180px}
+label{font-size:.9rem;font-weight:700;color:#1A5276}
+input[type=number]{width:100%;padding:10px 14px;font-family:'Heebo',Arial,sans-serif;font-size:1.1rem;font-weight:600;color:#0B2F4A;background:#fff;border:2.5px solid #5DADE2;border-radius:10px;text-align:center;outline:none;transition:border-color .2s}
+input[type=number]:focus{border-color:#1A5276}
+.result-box{text-align:center;padding:12px 20px;border-radius:12px;margin-bottom:14px;font-weight:700;font-size:1rem;transition:background .3s,color .3s;min-height:52px;display:flex;align-items:center;justify-content:center;gap:12px;border:2px solid transparent}
+.result-bmi{font-size:1.6rem;font-weight:900}
+svg.nomogram{display:block;width:100%;height:auto;max-height:520px}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:14px;font-size:.82rem;direction:rtl}
+.leg-item{display:flex;align-items:center;gap:8px}
+.leg-swatch{width:18px;height:18px;border-radius:4px;border:1px solid #1A5276;flex-shrink:0}
+.leg-label{color:#1A5276;font-weight:500}
+.footer{text-align:center;margin-top:18px;padding-top:14px;border-top:2px solid #AED6F1}
+.footer .name{font-size:1.2rem;font-weight:900;color:#0B2F4A}
+.footer .phone{font-size:1rem;font-weight:700;color:#2E86C1;direction:ltr;display:inline-block}
 </style>
 </head>
 <body>
-<img src="bmi.png" alt="BMI">
+<div class="card">
+  <div class="title">מדד מסת הגוף</div>
+  <div class="subtitle">
+    הכנס גובה ומשקל לחישוב ה-B.M.I. שלך.<br>
+    ניתן גם להשתמש בסרגל: חבר משקל (שמאל) עם גובה (ימין) —<br>
+    הנקודה שחוצה את העמודה המרכזית מציינת את ה-B.M.I.
+  </div>
+  <hr>
+  <div class="inputs">
+    <div class="input-group">
+      <label for="wIn">משקל (ק"ג)</label>
+      <input type="number" id="wIn" min="25" max="150" placeholder="70">
+    </div>
+    <div class="input-group">
+      <label for="hIn">גובה (ס"מ)</label>
+      <input type="number" id="hIn" min="125" max="210" placeholder="170">
+    </div>
+  </div>
+  <div class="result-box" id="resultBox" style="background:#F0F7FC;border-color:#AED6F1;color:#1A5276;">
+    <span id="resultText">הכנס גובה ומשקל לחישוב</span>
+  </div>
+
+  <svg class="nomogram" viewBox="0 0 500 820" xmlns="http://www.w3.org/2000/svg" font-family="Heebo,Arial,sans-serif">
+    <defs><clipPath id="cc"><rect x="0" y="100" width="500" height="660.0"/></clipPath></defs>
+    <text x="80" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#1A5276">משקל</text>
+    <text x="80" y="44" text-anchor="middle" font-size="11" fill="#5DADE2">(ק"ג)</text>
+    <text x="250" y="32" text-anchor="middle" font-size="22" font-weight="900" fill="#0B2F4A" letter-spacing="2">B.M.I.</text>
+    <text x="420" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#1A5276">גובה</text>
+    <text x="420" y="44" text-anchor="middle" font-size="11" fill="#5DADE2">(ס"מ)</text>
+    <rect x="185" y="100.0" width="130" height="204.2" fill="#0B2F4A"/>
+<text x="250" y="206.7" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF" direction="rtl">השמנה דרגה ג׳</text>
+<rect x="185" y="304.2" width="130" height="31.1" fill="#1A5276"/>
+<text x="250" y="322.8" text-anchor="middle" font-size="8" font-weight="700" fill="#FFFFFF" direction="rtl">השמנה דרגה ב׳</text>
+<rect x="185" y="335.4" width="130" height="36.0" fill="#2E86C1"/>
+<text x="250" y="357.1" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF" direction="rtl">השמנה דרגה א׳</text>
+<rect x="185" y="371.3" width="130" height="42.5" fill="#5DADE2"/>
+<text x="250" y="396.4" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF" direction="rtl">עודף משקל</text>
+<rect x="185" y="413.9" width="130" height="70.2" fill="#AED6F1"/>
+<text x="250" y="453.5" text-anchor="middle" font-size="12" font-weight="700" fill="#1A5276" direction="rtl">משקל תקין</text>
+<rect x="185" y="484.1" width="130" height="33.9" fill="#D6EAF8"/>
+<text x="250" y="504.1" text-anchor="middle" font-size="8" font-weight="700" fill="#1A5276" direction="rtl">תת-משקל</text>
+<rect x="185" y="518.0" width="130" height="242.0" fill="#EBF5FB"/>
+<text x="250" y="643.5" text-anchor="middle" font-size="12" font-weight="700" fill="#1A5276" direction="rtl">תת-משקל קשה</text>
+<rect x="185" y="100.0" width="130" height="660.0" fill="none" stroke="#1A5276" stroke-width="1.5"/>
+<line x1="175" y1="304.2" x2="185" y2="304.2" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="308.2" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">40</text>
+<line x1="175" y1="335.4" x2="185" y2="335.4" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="339.4" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">35</text>
+<line x1="175" y1="371.3" x2="185" y2="371.3" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="375.3" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">30</text>
+<line x1="175" y1="413.9" x2="185" y2="413.9" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="417.9" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">25</text>
+<line x1="175" y1="484.1" x2="185" y2="484.1" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="488.1" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">18.5</text>
+<line x1="175" y1="518.0" x2="185" y2="518.0" stroke="#1A5276" stroke-width="1.5"/>
+<text x="171" y="522.0" text-anchor="end" font-size="11" font-weight="700" fill="#1A5276">16</text>
+<line x1="80" y1="12.0" x2="80" y2="848.0" stroke="#1A5276" stroke-width="2"/>
+<line x1="80" y1="848.0" x2="74" y2="848.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="762.9" x2="68" y2="762.9" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="766.9" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">30</text>
+<line x1="80" y1="691.0" x2="74" y2="691.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="628.7" x2="68" y2="628.7" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="632.7" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">40</text>
+<line x1="80" y1="573.7" x2="74" y2="573.7" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="524.6" x2="68" y2="524.6" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="528.6" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">50</text>
+<line x1="80" y1="480.1" x2="74" y2="480.1" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="439.5" x2="68" y2="439.5" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="443.5" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">60</text>
+<line x1="80" y1="402.2" x2="74" y2="402.2" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="367.6" x2="68" y2="367.6" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="371.6" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">70</text>
+<line x1="80" y1="335.4" x2="74" y2="335.4" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="305.3" x2="68" y2="305.3" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="309.3" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">80</text>
+<line x1="80" y1="277.0" x2="74" y2="277.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="250.4" x2="68" y2="250.4" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="254.4" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">90</text>
+<line x1="80" y1="225.1" x2="74" y2="225.1" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="201.2" x2="68" y2="201.2" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="205.2" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">100</text>
+<line x1="80" y1="178.4" x2="74" y2="178.4" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="156.7" x2="68" y2="156.7" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="160.7" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">110</text>
+<line x1="80" y1="136.0" x2="74" y2="136.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="116.1" x2="68" y2="116.1" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="120.1" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">120</text>
+<line x1="80" y1="97.1" x2="74" y2="97.1" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="78.8" x2="68" y2="78.8" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="82.8" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">130</text>
+<line x1="80" y1="61.2" x2="74" y2="61.2" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="44.2" x2="68" y2="44.2" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="48.2" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">140</text>
+<line x1="80" y1="27.9" x2="74" y2="27.9" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="80" y1="12.0" x2="68" y2="12.0" stroke="#1A5276" stroke-width="1.8"/>
+<text x="58" y="16.0" text-anchor="end" font-size="11" font-weight="600" fill="#1A5276">150</text>
+<line x1="420" y1="188.0" x2="420" y2="672.0" stroke="#1A5276" stroke-width="2"/>
+<line x1="420" y1="188.0" x2="426" y2="188.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="224.6" x2="432" y2="224.6" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="228.6" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">130</text>
+<line x1="420" y1="259.8" x2="426" y2="259.8" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="293.7" x2="432" y2="293.7" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="297.7" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">140</text>
+<line x1="420" y1="326.4" x2="426" y2="326.4" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="358.1" x2="432" y2="358.1" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="362.1" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">150</text>
+<line x1="420" y1="388.7" x2="426" y2="388.7" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="418.3" x2="432" y2="418.3" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="422.3" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">160</text>
+<line x1="420" y1="447.0" x2="426" y2="447.0" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="474.9" x2="432" y2="474.9" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="478.9" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">170</text>
+<line x1="420" y1="501.9" x2="426" y2="501.9" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="528.2" x2="432" y2="528.2" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="532.2" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">180</text>
+<line x1="420" y1="553.8" x2="426" y2="553.8" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="578.7" x2="432" y2="578.7" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="582.7" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">190</text>
+<line x1="420" y1="602.9" x2="426" y2="602.9" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="626.5" x2="432" y2="626.5" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="630.5" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">200</text>
+<line x1="420" y1="649.6" x2="426" y2="649.6" stroke="#1A5276" stroke-width="0.9"/>
+<line x1="420" y1="672.0" x2="432" y2="672.0" stroke="#1A5276" stroke-width="1.8"/>
+<text x="442" y="676.0" text-anchor="start" font-size="11" font-weight="600" fill="#1A5276">210</text>
+    <g id="dynamicLayer" clip-path="url(#cc)"></g>
+    <g id="bmiLabel"></g>
+  </svg>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-swatch" style="background:#EBF5FB"></div><span class="leg-label">תת-משקל קשה (<16)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#D6EAF8"></div><span class="leg-label">תת-משקל (16-18.5)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#AED6F1"></div><span class="leg-label">משקל תקין (18.5-25)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#5DADE2"></div><span class="leg-label">עודף משקל (25-30)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#2E86C1"></div><span class="leg-label">השמנה דרגה א׳ (30-35)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#1A5276"></div><span class="leg-label">השמנה דרגה ב׳ (35-40)</span></div><div class="leg-item"><div class="leg-swatch" style="background:#0B2F4A"></div><span class="leg-label">השמנה דרגה ג׳ (>40)</span></div>
+  </div>
+  <div class="footer">
+    <div class="name">יעל לדאני, דיאטנית קלינית</div>
+    <div class="phone">054-4284486</div>
+  </div>
+</div>
+
+<script>
+const CATS=[[16, "תת-משקל קשה", "#EBF5FB", "#1A5276"], [18.5, "תת-משקל", "#D6EAF8", "#1A5276"], [25, "משקל תקין", "#AED6F1", "#1A5276"], [30, "עודף משקל", "#5DADE2", "#FFFFFF"], [35, "השמנה דרגה א׳", "#2E86C1", "#FFFFFF"], [40, "השמנה דרגה ב׳", "#1A5276", "#FFFFFF"], [9999, "השמנה דרגה ג׳", "#0B2F4A", "#FFFFFF"]];
+const A0=233.269368,B=1064.722619,k1=23.500517,k2=-5.079836;
+const ty=100,xH=420,xW=80,xBMI=250,bHalf=65;
+const Hmin=125,Hmax=210,Wmin=25,Wmax=150;
+
+function pixH(h){return ty+4*A0*Math.log(h)+(B-A0*k1);}
+function pixW(w){return ty+(-2*A0*Math.log(w)+(B-A0*k2));}
+function pixBMI(b){return ty+(-A0*Math.log(b)+B);}
+function getCat(bmi){for(const c of CATS){if(bmi<c[0])return c;}return CATS[CATS.length-1];}
+
+function update(){
+  const h=parseFloat(document.getElementById('hIn').value);
+  const w=parseFloat(document.getElementById('wIn').value);
+  const layer=document.getElementById('dynamicLayer');
+  const labelG=document.getElementById('bmiLabel');
+  const box=document.getElementById('resultBox');
+  const txt=document.getElementById('resultText');
+  layer.innerHTML=''; labelG.innerHTML='';
+  if(!h||!w||h<Hmin||h>Hmax||w<Wmin||w>Wmax){
+    box.style.background='#F0F7FC';box.style.borderColor='#AED6F1';box.style.color='#1A5276';
+    txt.innerHTML='הכנס גובה ומשקל לחישוב';return;
+  }
+  const bmi=w/Math.pow(h/100,2);
+  const cat=getCat(bmi);
+  const yH=pixH(h),yW=pixW(w),yB=pixBMI(bmi);
+  layer.innerHTML=
+    `<line x1="${xW}" y1="${yW.toFixed(1)}" x2="${xH}" y2="${yH.toFixed(1)}" stroke="rgba(224,92,0,.75)" stroke-width="2" stroke-dasharray="6,3"/>`+
+    `<circle cx="${xW}" cy="${yW.toFixed(1)}" r="6" fill="#E05C00" stroke="#fff" stroke-width="1.5"/>`+
+    `<circle cx="${xH}" cy="${yH.toFixed(1)}" r="6" fill="#E05C00" stroke="#fff" stroke-width="1.5"/>`+
+    `<circle cx="${xBMI}" cy="${yB.toFixed(1)}" r="10" fill="#E05C00" stroke="#fff" stroke-width="2.5"/>`;
+  labelG.innerHTML=
+    `<rect x="${xBMI+bHalf+2}" y="${(yB-14).toFixed(1)}" width="72" height="22" rx="4" fill="#E05C00"/>`+
+    `<text x="${xBMI+bHalf+38}" y="${(yB+2).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">B.M.I. ${bmi.toFixed(1)}</text>`;
+  box.style.background=cat[2];
+  box.style.borderColor=cat[3]==='#FFFFFF'?'rgba(255,255,255,.4)':cat[2];
+  box.style.color=cat[3];
+  txt.innerHTML=`<span>B.M.I.: <span class="result-bmi">${bmi.toFixed(1)}</span></span><span>${cat[1]}</span>`;
+}
+document.getElementById('hIn').addEventListener('input',update);
+document.getElementById('wIn').addEventListener('input',update);
+</script>
 </body>
 </html>
